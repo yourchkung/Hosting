@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Microsoft.AspNet.Hosting.Builder
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Parameter, AllowMultiple = false)]
     public sealed class RequiresServicesAttribute : Attribute { }
 
     public class HostingApplicationBuilder : ApplicationBuilder
@@ -18,7 +18,8 @@ namespace Microsoft.AspNet.Hosting.Builder
 
         public override IApplicationBuilder Use(Func<RequestDelegate, RequestDelegate> middleware)
         {
-            if (!_addedServices && middleware.Target.GetType().GetTypeInfo().GetCustomAttribute<RequiresServicesAttribute>(true) != null)
+            //if (!_addedServices && middleware.Target.GetType().GetTypeInfo().GetCustomAttribute<RequiresServicesAttribute>(true) != null)
+            if (!_addedServices && middleware.GetMethodInfo().GetCustomAttribute<RequiresServicesAttribute>(true) != null)
             {
                 this.UseRequestServices();
                 _addedServices = true;
