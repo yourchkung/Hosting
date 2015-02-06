@@ -68,8 +68,6 @@ namespace Microsoft.AspNet.TestHost
         public async Task CanAddNewHostServices()
         {
             var services = HostingServices.Create().BuildServiceProvider();
-            var newHostServices = new ServiceCollection();
-            newHostServices.AddSingleton<ContextHolder>();
             TestServer server = TestServer.Create(services, app =>
             {
                 var a = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
@@ -80,7 +78,7 @@ namespace Microsoft.AspNet.TestHost
                     var accessor = app.ApplicationServices.GetRequiredService<ContextHolder>();
                     return context.Response.WriteAsync("HasContext:" + (accessor.Accessor.Value != null));
                 });
-            }, newHostServices);
+            }, newHostServices => newHostServices.AddSingleton<ContextHolder>());
 
             string result = await server.CreateClient().GetStringAsync("/path");
             Assert.Equal("HasContext:True", result);
