@@ -40,7 +40,6 @@ namespace Microsoft.AspNet.TestHost
         [Fact]
         public async Task CanAccessHttpContext()
         {
-            var services = new ServiceCollection().BuildServiceProvider();
             TestServer server = TestServer.Create(app =>
             {
                 app.Run(context =>
@@ -67,8 +66,7 @@ namespace Microsoft.AspNet.TestHost
         [Fact]
         public async Task CanAddNewHostServices()
         {
-            var services = HostingServices.Create().BuildServiceProvider();
-            TestServer server = TestServer.Create(services, app =>
+            TestServer server = TestServer.Create(app =>
             {
                 var a = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
 
