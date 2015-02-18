@@ -69,7 +69,7 @@ namespace Microsoft.AspNet.Hosting.Tests
             var instance = new FakeService();
             var factoryInstance = new FakeFactoryService(instance);
 
-            var services = HostingServices.Create(fallbackServices.BuildServiceProvider(), /*config*/ null,
+            var services = HostingServices.Create(fallbackServices.BuildServiceProvider(),
                 additionalHostServices =>
                 {
                     additionalHostServices.AddSingleton<IFakeSingletonService, FakeService>();
@@ -109,7 +109,7 @@ namespace Microsoft.AspNet.Hosting.Tests
                     typeof(IFakeService),
                 }));
 
-            var services = HostingServices.Create(fallbackServices.BuildServiceProvider(), /*config*/ null, 
+            var services = HostingServices.Create(fallbackServices.BuildServiceProvider(), 
                 additionalHostServices => additionalHostServices.AddSingleton<IFakeService, FakeService>());
 
             // Act
