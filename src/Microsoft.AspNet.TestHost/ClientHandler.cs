@@ -218,6 +218,7 @@ namespace Microsoft.AspNet.TestHost
 
             public void Dispose()
             {
+                _responseFeature.FireOnResponseCompleted();
                 _responseStream.Dispose();
                 // Do not dispose the request, that will be disposed by the caller.
             }
