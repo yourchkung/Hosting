@@ -175,6 +175,7 @@ namespace Microsoft.AspNet.TestHost
                 if (!_responseTcs.Task.IsCompleted)
                 {
                     var response = GenerateResponse();
+                    _responseFeature.FireOnResponseCompleted();
                     // Dispatch, as TrySetResult will synchronously execute the waiters callback and block our Write.
                     Task.Factory.StartNew(() => _responseTcs.TrySetResult(response));
                 }
@@ -218,7 +219,6 @@ namespace Microsoft.AspNet.TestHost
 
             public void Dispose()
             {
-                _responseFeature.FireOnResponseCompleted();
                 _responseStream.Dispose();
                 // Do not dispose the request, that will be disposed by the caller.
             }
